@@ -84,14 +84,143 @@ export default function HomePage() {
   return (
     <main style={{ maxWidth: 960, margin: '0 auto', padding: 16, fontFamily: 'system-ui' }}>
       <h1 style={{ fontSize: 28, marginBottom: 6 }}>Rifa (1 al 100)</h1>
-      <p style={{ marginTop: 0, opacity: 0.8 }}>
-        Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! 
-              Para participar es simple, selecciona el numero disponible y llena 
-              los campos. Una vez que esten reservados enviame por whatsapp tu/s 
-              numero/s, tu nombre y apellido y el comprobante de transferencia 
-              para que yo pueda confirmarlos! Los numeros seran sorteados una vez 
-              se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
-      </p>
+      <div
+  style={{
+    border: '1px solid #eee',
+    borderRadius: 18,
+    padding: 16,
+    background: 'linear-gradient(180deg, #fff 0%, #fafafa 100%)',
+    boxShadow: '0 10px 24px rgba(0,0,0,0.06)',
+    marginBottom: 14,
+  }}
+>
+  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+    <div style={{ fontSize: 26 }}>🎁</div>
+    <div>
+      <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1 }}>
+        Rifa  — ¡5 premios!
+      </div>
+      <div style={{ opacity: 0.75, fontSize: 13 }}>
+        Elegí tu número, reservá y confirmamos con tu comprobante 💚
+      </div>
+    </div>
+  </div>
+
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+    <span
+      style={{
+        padding: '6px 10px',
+        borderRadius: 999,
+        border: '1px solid #e6e6e6',
+        background: '#fff',
+        fontWeight: 700,
+        fontSize: 13,
+      }}
+    >
+      💵 1 número: $2500
+    </span>
+    <span
+      style={{
+        padding: '6px 10px',
+        borderRadius: 999,
+        border: '1px solid #e6e6e6',
+        background: '#fff',
+        fontWeight: 700,
+        fontSize: 13,
+      }}
+    >
+      ✨ 2 números: $4500
+    </span>
+    <span
+      style={{
+        padding: '6px 10px',
+        borderRadius: 999,
+        border: '1px solid #e6e6e6',
+        background: '#fff',
+        fontWeight: 700,
+        fontSize: 13,
+      }}
+    >
+      📲 Confirmación por WhatsApp
+    </span>
+  </div>
+
+  <div style={{ marginTop: 12, opacity: 0.9, lineHeight: 1.45 }}>
+    <div style={{ marginBottom: 8 }}>
+      <b>¿Cómo participás?</b> 😄
+    </div>
+    <ol style={{ margin: 0, paddingLeft: 18 }}>
+      <li>Elegí un número <b>disponible</b> en la grilla.</li>
+      <li>Completá <b>nombre, apellido y celular</b> para reservarlo.</li>
+      <li>
+        Enviame por <b>WhatsApp</b> tus número/s, tu nombre y el <b>comprobante de transferencia </b> 
+        para que yo lo confirme ✅
+      </li>
+      <li>El sorteo se hace cuando estén <b>vendidos los 100 números</b> 🍀</li>
+    </ol>
+
+    <div style={{ marginTop: 10, fontWeight: 800 }}>
+      ¡Gracias por participar y MUCHA SUERTE! 🙂🍀
+    </div>
+  </div>
+</div>
+
+<div
+  style={{
+    border: '1px dashed #cfcfcf',
+    borderRadius: 18,
+    padding: 14,
+    background: '#fff',
+    boxShadow: '0 10px 24px rgba(0,0,0,0.05)',
+    display: 'grid',
+    gap: 10,
+    marginBottom: 14,
+  }}
+>
+  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontSize: 20 }}>🏦</div>
+    <div style={{ fontSize: 16, fontWeight: 900 }}>Datos para transferir</div>
+  </div>
+
+  <div style={{ display: 'grid', gap: 6 }}>
+    <div
+      style={{
+        padding: 12,
+        borderRadius: 14,
+        background: '#f7f7f7',
+        border: '1px solid #eee',
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: 10,
+        alignItems: 'center',
+        flexWrap: 'wrap',
+      }}
+    >
+      <div>
+        <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>ALIAS</div>
+        <div style={{ fontSize: 16, fontWeight: 900 }}>karimgil</div>
+      </div>
+      {/* Si querés que copie al portapapeles, decime y te lo agrego */}
+    </div>
+
+    <div
+      style={{
+        padding: 12,
+        borderRadius: 14,
+        background: '#f7f7f7',
+        border: '1px solid #eee',
+      }}
+    >
+      <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>NOMBRE</div>
+      <div style={{ fontSize: 16, fontWeight: 900 }}>Karina Gil</div>
+    </div>
+  </div>
+
+  <div style={{ fontSize: 12, opacity: 0.75 }}>
+    💬 Tip: Mandame el comprobante por WhatsApp y te lo confirmo al toque.
+  </div>
+</div>
+
 
       {msg && (
         <div style={{ padding: 12, border: '1px solid #ddd', borderRadius: 12, marginBottom: 12 }}>
