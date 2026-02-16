@@ -211,6 +211,7 @@ export default function HomePage() {
             <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8 }}>
               Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! Para participar es simple, selecciona el numero disponible y llena los campos. Una vez que esten reservados enviame por whatsapp tu/s numero/s, tu nombre y apellido y el comprobante de transferencia para que yo pueda confirmarlos! Los numeros seran sorteados una vez se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
             </p>
+            <p>PRUEBAAAAA</p>
           </div>
         </div>
       )}
