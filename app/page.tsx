@@ -85,7 +85,12 @@ export default function HomePage() {
     <main style={{ maxWidth: 960, margin: '0 auto', padding: 16, fontFamily: 'system-ui' }}>
       <h1 style={{ fontSize: 28, marginBottom: 6 }}>Rifa (1 al 100)</h1>
       <p style={{ marginTop: 0, opacity: 0.8 }}>
-        Elegí un número disponible, completá tus datos y queda reservado hasta confirmar el pago.
+        Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! 
+              Para participar es simple, selecciona el numero disponible y llena 
+              los campos. Una vez que esten reservados enviame por whatsapp tu/s 
+              numero/s, tu nombre y apellido y el comprobante de transferencia 
+              para que yo pueda confirmarlos! Los numeros seran sorteados una vez 
+              se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
       </p>
 
       {msg && (
@@ -209,9 +214,13 @@ export default function HomePage() {
             </div>
 
             <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8 }}>
-              Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! Para participar es simple, selecciona el numero disponible y llena los campos. Una vez que esten reservados enviame por whatsapp tu/s numero/s, tu nombre y apellido y el comprobante de transferencia para que yo pueda confirmarlos! Los numeros seran sorteados una vez se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
+              Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! 
+              Para participar es simple, selecciona el numero disponible y llena 
+              los campos. Una vez que esten reservados enviame por whatsapp tu/s 
+              numero/s, tu nombre y apellido y el comprobante de transferencia 
+              para que yo pueda confirmarlos! Los numeros seran sorteados una vez 
+              se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
             </p>
-            <p>PRUEBAAAAA</p>
           </div>
         </div>
       )}
