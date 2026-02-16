@@ -209,7 +209,7 @@ export default function HomePage() {
             </div>
 
             <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8 }}>
-              Al reservar, el número queda “pendiente” hasta que confirmemos la transferencia.
+              Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! Para participar es simple, selecciona el numero disponible y llena los campos. Una vez que esten reservados enviame por whatsapp tu/s numero/s, tu nombre y apellido y el comprobante de transferencia para que yo pueda confirmarlos! Los numeros seran sorteados una vez se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
             </p>
           </div>
         </div>
