@@ -23,6 +23,19 @@ export default function HomePage() {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  // Copiar alias (botón)
+  const [copiado, setCopiado] = useState(false);
+  const copiarAlias = async () => {
+    try {
+      await navigator.clipboard.writeText('karimgil');
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 1800);
+    } catch {
+      // fallback por si clipboard falla (navegadores viejos)
+      setMsg('No pude copiar automáticamente. Copialo manual: karimgil');
+    }
+  };
+
   async function refresh() {
     setLoading(true);
     setMsg(null);
@@ -84,150 +97,198 @@ export default function HomePage() {
   return (
     <main style={{ maxWidth: 960, margin: '0 auto', padding: 16, fontFamily: 'system-ui' }}>
       <h1 style={{ fontSize: 28, marginBottom: 6 }}>Rifa (1 al 100)</h1>
+
+      {/* Card Intro */}
       <div
-  style={{
-    border: '1px solid #eee',
-    borderRadius: 18,
-    padding: 16,
-    background: 'linear-gradient(180deg, #fff 0%, #fafafa 100%)',
-    boxShadow: '0 10px 24px rgba(0,0,0,0.06)',
-    marginBottom: 14,
-  }}
->
-  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-    <div style={{ fontSize: 26 }}>🎁</div>
-    <div>
-      <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1 }}>
-        Rifa  — ¡5 premios!
+        style={{
+          border: '1px solid #eee',
+          borderRadius: 18,
+          padding: 16,
+          background: 'linear-gradient(180deg, #fff 0%, #fafafa 100%)',
+          boxShadow: '0 10px 24px rgba(0,0,0,0.06)',
+          marginBottom: 14,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+          <div style={{ fontSize: 26 }}>🎁</div>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1 }}>Rifa — ¡5 premios!</div>
+            <div style={{ opacity: 0.75, fontSize: 13 }}>
+              Elegí tu número, reservá y confirmamos con tu comprobante 💚
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+          <span
+            style={{
+              padding: '6px 10px',
+              borderRadius: 999,
+              border: '1px solid #e6e6e6',
+              background: '#fff',
+              fontWeight: 700,
+              fontSize: 13,
+            }}
+          >
+            💵 1 número: $2500
+          </span>
+          <span
+            style={{
+              padding: '6px 10px',
+              borderRadius: 999,
+              border: '1px solid #e6e6e6',
+              background: '#fff',
+              fontWeight: 700,
+              fontSize: 13,
+            }}
+          >
+            ✨ 2 números: $4500
+          </span>
+          <span
+            style={{
+              padding: '6px 10px',
+              borderRadius: 999,
+              border: '1px solid #e6e6e6',
+              background: '#fff',
+              fontWeight: 700,
+              fontSize: 13,
+            }}
+          >
+            📲 Confirmación por WhatsApp
+          </span>
+        </div>
+
+        <div style={{ marginTop: 12, opacity: 0.9, lineHeight: 1.45 }}>
+          <div style={{ marginBottom: 8 }}>
+            <b>¿Cómo participás?</b> 😄
+          </div>
+          <ol style={{ margin: 0, paddingLeft: 18 }}>
+            <li>
+              Elegí un número <b>disponible</b> en la grilla.
+            </li>
+            <li>
+              Completá <b>nombre, apellido y celular</b> para reservarlo.
+            </li>
+            <li>
+              Enviame por <b>WhatsApp</b> tus número/s, tu nombre y el <b>comprobante de
+              transferencia</b> para que yo lo confirme ✅
+            </li>
+            <li>
+              El sorteo se hace cuando estén <b>vendidos los 100 números</b> 🍀
+            </li>
+          </ol>
+
+          <div style={{ marginTop: 10, fontWeight: 800 }}>
+            ¡Gracias por participar y MUCHA SUERTE! 🙂🍀
+          </div>
+        </div>
       </div>
-      <div style={{ opacity: 0.75, fontSize: 13 }}>
-        Elegí tu número, reservá y confirmamos con tu comprobante 💚
+
+      {/* Card Premios */}
+      <div
+        style={{
+          borderRadius: 20,
+          padding: 16,
+          background: 'linear-gradient(135deg, #fff8f0, #fff)',
+          boxShadow: '0 10px 24px rgba(0,0,0,0.06)',
+          marginBottom: 14,
+          border: '1px solid #f1e6da',
+        }}
+      >
+        <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 10 }}>🎁 Premios</div>
+
+        <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.6 }}>
+          <li>🥇 <b>1° Premio:</b> Pava eléctrica</li>
+          <li>🥈 <b>2° Premio:</b> Auriculares inalámbricos</li>
+          <li>🥉 <b>3° Premio:</b> Perfume árabe 35ml (imitación)</li>
+          <li>🎀 <b>4° Premio:</b> Perfume árabe 35ml (imitación)</li>
+          <li>✨ <b>5° Premio:</b> Perfume árabe 35ml (imitación)</li>
+        </ul>
       </div>
-    </div>
-  </div>
 
-  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-    <span
-      style={{
-        padding: '6px 10px',
-        borderRadius: 999,
-        border: '1px solid #e6e6e6',
-        background: '#fff',
-        fontWeight: 700,
-        fontSize: 13,
-      }}
-    >
-      💵 1 número: $2500
-    </span>
-    <span
-      style={{
-        padding: '6px 10px',
-        borderRadius: 999,
-        border: '1px solid #e6e6e6',
-        background: '#fff',
-        fontWeight: 700,
-        fontSize: 13,
-      }}
-    >
-      ✨ 2 números: $4500
-    </span>
-    <span
-      style={{
-        padding: '6px 10px',
-        borderRadius: 999,
-        border: '1px solid #e6e6e6',
-        background: '#fff',
-        fontWeight: 700,
-        fontSize: 13,
-      }}
-    >
-      📲 Confirmación por WhatsApp
-    </span>
-  </div>
+      {/* Card Transferencia + Copiar alias */}
+      <div
+        style={{
+          border: '1px dashed #cfcfcf',
+          borderRadius: 18,
+          padding: 14,
+          background: '#fff',
+          boxShadow: '0 10px 24px rgba(0,0,0,0.05)',
+          display: 'grid',
+          gap: 10,
+          marginBottom: 14,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 20 }}>🏦</div>
+          <div style={{ fontSize: 16, fontWeight: 900 }}>Datos para transferir</div>
+        </div>
 
-  <div style={{ marginTop: 12, opacity: 0.9, lineHeight: 1.45 }}>
-    <div style={{ marginBottom: 8 }}>
-      <b>¿Cómo participás?</b> 😄
-    </div>
-    <ol style={{ margin: 0, paddingLeft: 18 }}>
-      <li>Elegí un número <b>disponible</b> en la grilla.</li>
-      <li>Completá <b>nombre, apellido y celular</b> para reservarlo.</li>
-      <li>
-        Enviame por <b>WhatsApp</b> tus número/s, tu nombre y el <b>comprobante de transferencia </b> 
-        para que yo lo confirme ✅
-      </li>
-      <li>El sorteo se hace cuando estén <b>vendidos los 100 números</b> 🍀</li>
-    </ol>
+        <div style={{ display: 'grid', gap: 8 }}>
+          {/* Alias */}
+          <div
+            style={{
+              padding: 12,
+              borderRadius: 14,
+              background: '#f7f7f7',
+              border: '1px solid #eee',
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: 10,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>ALIAS</div>
+              <div style={{ fontSize: 16, fontWeight: 900 }}>karimgil</div>
+            </div>
 
-    <div style={{ marginTop: 10, fontWeight: 800 }}>
-      ¡Gracias por participar y MUCHA SUERTE! 🙂🍀
-    </div>
-  </div>
-</div>
+            <button
+              onClick={copiarAlias}
+              style={{
+                padding: '8px 12px',
+                borderRadius: 12,
+                border: '1px solid #000',
+                background: '#000',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 800,
+                fontSize: 13,
+              }}
+              title="Copiar alias"
+            >
+              {copiado ? '✅ Copiado!' : '📋 Copiar alias'}
+            </button>
+          </div>
 
-<div
-  style={{
-    border: '1px dashed #cfcfcf',
-    borderRadius: 18,
-    padding: 14,
-    background: '#fff',
-    boxShadow: '0 10px 24px rgba(0,0,0,0.05)',
-    display: 'grid',
-    gap: 10,
-    marginBottom: 14,
-  }}
->
-  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-    <div style={{ fontSize: 20 }}>🏦</div>
-    <div style={{ fontSize: 16, fontWeight: 900 }}>Datos para transferir</div>
-  </div>
+          {/* Nombre */}
+          <div
+            style={{
+              padding: 12,
+              borderRadius: 14,
+              background: '#f7f7f7',
+              border: '1px solid #eee',
+            }}
+          >
+            <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>NOMBRE</div>
+            <div style={{ fontSize: 16, fontWeight: 900 }}>Karina Gil</div>
+          </div>
+        </div>
 
-  <div style={{ display: 'grid', gap: 6 }}>
-    <div
-      style={{
-        padding: 12,
-        borderRadius: 14,
-        background: '#f7f7f7',
-        border: '1px solid #eee',
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: 10,
-        alignItems: 'center',
-        flexWrap: 'wrap',
-      }}
-    >
-      <div>
-        <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>ALIAS</div>
-        <div style={{ fontSize: 16, fontWeight: 900 }}>karimgil</div>
+        <div style={{ fontSize: 12, opacity: 0.75 }}>
+          💬 Tip: Mandame el comprobante por WhatsApp para confirmar tu número.
+        </div>
       </div>
-      {/* Si querés que copie al portapapeles, decime y te lo agrego */}
-    </div>
 
-    <div
-      style={{
-        padding: 12,
-        borderRadius: 14,
-        background: '#f7f7f7',
-        border: '1px solid #eee',
-      }}
-    >
-      <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>NOMBRE</div>
-      <div style={{ fontSize: 16, fontWeight: 900 }}>Karina Gil</div>
-    </div>
-  </div>
-
-  <div style={{ fontSize: 12, opacity: 0.75 }}>
-    💬 Tip: Mandame el comprobante por WhatsApp y te lo confirmo al toque.
-  </div>
-</div>
-
-
+      {/* Mensajes */}
       {msg && (
         <div style={{ padding: 12, border: '1px solid #ddd', borderRadius: 12, marginBottom: 12 }}>
           {msg}
         </div>
       )}
 
+      {/* Grilla */}
       <div
         style={{
           display: 'grid',
@@ -342,13 +403,9 @@ export default function HomePage() {
               </button>
             </div>
 
-            <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8 }}>
-              Hola! Estamos rifando 5 premios! cada numero vale $2500 y si compras dos $4500! 
-              Para participar es simple, selecciona el numero disponible y llena 
-              los campos. Una vez que esten reservados enviame por whatsapp tu/s 
-              numero/s, tu nombre y apellido y el comprobante de transferencia 
-              para que yo pueda confirmarlos! Los numeros seran sorteados una vez 
-              se hayan vendido todos. Gracias por participar y BUENA SUERTE!!! 🙂
+            <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8, lineHeight: 1.4 }}>
+              ✅ Después de reservar, enviame por WhatsApp tu/s número/s, tu nombre y el comprobante de
+              transferencia para confirmarlos.
             </p>
           </div>
         </div>
