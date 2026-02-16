@@ -1,65 +1,219 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useEffect, useMemo, useState } from 'react';
+
+type RaffleRow = {
+  number: number;
+  status: 'available' | 'reserved' | 'confirmed';
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+  reserved_at: string | null;
+  confirmed_at: string | null;
+};
+
+export default function HomePage() {
+  const [rows, setRows] = useState<RaffleRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [selected, setSelected] = useState<number | null>(null);
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [msg, setMsg] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function refresh() {
+    setLoading(true);
+    setMsg(null);
+    const res = await fetch('/api/numbers', { cache: 'no-store' });
+    const json = await res.json();
+    setRows(json.data ?? []);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  const selectedRow = useMemo(
+    () => rows.find((r) => r.number === selected) ?? null,
+    [rows, selected]
+  );
+
+  async function reserve() {
+    if (!selected) return;
+    setBusy(true);
+    setMsg(null);
+
+    const res = await fetch('/api/reserve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: selected, first_name, last_name, phone }),
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      setMsg(json.error ?? 'Error');
+      setBusy(false);
+      await refresh();
+      return;
+    }
+
+    setMsg('¡Listo! Tu número quedó reservado. Te confirmamos al recibir la transferencia.');
+    setSelected(null);
+    setFirstName('');
+    setLastName('');
+    setPhone('');
+    setBusy(false);
+    await refresh();
+  }
+
+  const statusLabel = (s: RaffleRow['status']) => {
+    if (s === 'available') return 'Disponible';
+    if (s === 'reserved') return 'Reservado';
+    return 'Confirmado';
+  };
+
+  const tileClass = (s: RaffleRow['status']) => {
+    if (s === 'available') return 'bg-white border-gray-300 hover:border-black';
+    if (s === 'reserved') return 'bg-yellow-100 border-yellow-400';
+    return 'bg-green-100 border-green-500';
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main style={{ maxWidth: 960, margin: '0 auto', padding: 16, fontFamily: 'system-ui' }}>
+      <h1 style={{ fontSize: 28, marginBottom: 6 }}>Rifa (1 al 100)</h1>
+      <p style={{ marginTop: 0, opacity: 0.8 }}>
+        Elegí un número disponible, completá tus datos y queda reservado hasta confirmar el pago.
+      </p>
+
+      {msg && (
+        <div style={{ padding: 12, border: '1px solid #ddd', borderRadius: 12, marginBottom: 12 }}>
+          {msg}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      )}
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(10, minmax(0, 1fr))',
+          gap: 8,
+          marginTop: 12,
+        }}
+      >
+        {loading ? (
+          <div>Cargando...</div>
+        ) : (
+          rows.map((r) => (
+            <button
+              key={r.number}
+              onClick={() => {
+                if (r.status !== 'available') return;
+                setSelected(r.number);
+                setMsg(null);
+              }}
+              disabled={r.status !== 'available'}
+              title={r.status === 'available' ? 'Disponible' : statusLabel(r.status)}
+              style={{
+                padding: 10,
+                borderRadius: 12,
+                border: '2px solid',
+                cursor: r.status === 'available' ? 'pointer' : 'not-allowed',
+                opacity: r.status === 'available' ? 1 : 0.75,
+              }}
+              className={tileClass(r.status)}
+            >
+              <div style={{ fontSize: 16, fontWeight: 700 }}>{r.number}</div>
+              <div style={{ fontSize: 11, opacity: 0.8 }}>{statusLabel(r.status)}</div>
+            </button>
+          ))
+        )}
+      </div>
+
+      {/* Modal simple */}
+      {selected && selectedRow?.status === 'available' && (
+        <div
+          onClick={() => setSelected(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 16,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              background: 'white',
+              borderRadius: 16,
+              padding: 16,
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <h2 style={{ marginTop: 0 }}>Reservar número {selected}</h2>
+
+            <label style={{ display: 'block', marginBottom: 10 }}>
+              Nombre
+              <input
+                value={first_name}
+                onChange={(e) => setFirstName(e.target.value)}
+                style={{ width: '100%', padding: 10, borderRadius: 10, border: '1px solid #ccc' }}
+              />
+            </label>
+
+            <label style={{ display: 'block', marginBottom: 10 }}>
+              Apellido
+              <input
+                value={last_name}
+                onChange={(e) => setLastName(e.target.value)}
+                style={{ width: '100%', padding: 10, borderRadius: 10, border: '1px solid #ccc' }}
+              />
+            </label>
+
+            <label style={{ display: 'block', marginBottom: 10 }}>
+              Celular
+              <input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Ej: 11 2345-6789"
+                style={{ width: '100%', padding: 10, borderRadius: 10, border: '1px solid #ccc' }}
+              />
+            </label>
+
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setSelected(null)}
+                style={{ padding: '10px 12px', borderRadius: 12, border: '1px solid #ccc' }}
+                disabled={busy}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={reserve}
+                style={{
+                  padding: '10px 12px',
+                  borderRadius: 12,
+                  border: '1px solid #000',
+                  background: '#000',
+                  color: '#fff',
+                }}
+                disabled={busy}
+              >
+                {busy ? 'Reservando...' : 'Reservar'}
+              </button>
+            </div>
+
+            <p style={{ marginTop: 12, fontSize: 12, opacity: 0.8 }}>
+              Al reservar, el número queda “pendiente” hasta que confirmemos la transferencia.
+            </p>
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+    </main>
   );
 }
